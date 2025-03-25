@@ -43,6 +43,26 @@ export default function Home() {
     setOrderBy((orderBy) => (orderBy === "ASC" ? "DESC" : "ASC"));
   }
 
+  // Função para carregar os contatos
+  useEffect(() => {
+    const fetchContacts = async () => {
+      try {
+        const response = await fetch("http://localhost:3001/contacts");
+        const data = await response.json();
+        setContacts(data);
+      } catch (error) {
+        console.error("Erro ao carregar os contatos:", error);
+      }
+    };
+
+    fetchContacts();
+  }, []);
+
+  // Função para atualizar a lista após a exclusão
+  const handleDeleteContact = (id: string) => {
+    setContacts(contacts.filter((contact) => contact.id !== id));
+  };
+
   return (
     <>
       {isLoading && <Loader isLoading={isLoading} />}
@@ -68,9 +88,10 @@ export default function Home() {
         {!contacts.length && (
           <p className={styles.emptyContacts}>Nenhum contato encontrado.</p>
         )}
-        {contacts.map((contact) => (
-          <ContactCard key={contact.id} data={contact} />
-        ))}
+        {contacts.map((contact) => {
+          console.log(contact); // Faz o log do contato
+          return <ContactCard key={contact.id} data={contact} onDelete={handleDeleteContact}/>;
+        })}
       </section>
     </>
   );
