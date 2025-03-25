@@ -1,12 +1,10 @@
-import { Home } from "../../pages";
-import { Header } from "../Layout";
 import styles from "./styles.module.css";
+import AppRoutes from "../../routes";
 
 function App() {
   return (
     <div className={styles.wrapper}>
-      <Header />
-      <Home />
+      <AppRoutes/>
     </div>
   );
 }
