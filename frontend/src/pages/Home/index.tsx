@@ -1,18 +1,20 @@
-import { useCallback, useEffect, useState } from "react";
 import styles from "./styles.module.css";
+import arrow from "../../assets/icons/arrow.svg";
 import ContactCard from "../../components/ContactCard";
+import { useCallback, useEffect, useState } from "react";
 import { ContactsService } from "../../services";
 import { IContact } from "../../@types/Contact";
 import { Button, Input, Loader } from "../../components";
-import arrow from "../../assets/icons/arrow.svg";
 import { orderBy } from "../../services/ContactsService";
 import { useDebounceCallBack } from "../../hooks";
+import { useNavigate } from "react-router";
 
 export default function Home() {
   const [contacts, setContacts] = useState<IContact[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [orderBy, setOrderBy] = useState<orderBy>("ASC");
+  const navigate = useNavigate()
 
   const loadContacts = useCallback(async () => {
     try {
@@ -43,24 +45,8 @@ export default function Home() {
     setOrderBy((orderBy) => (orderBy === "ASC" ? "DESC" : "ASC"));
   }
 
-  // Função para carregar os contatos
-  useEffect(() => {
-    const fetchContacts = async () => {
-      try {
-        const response = await fetch("http://localhost:3001/contacts");
-        const data = await response.json();
-        setContacts(data);
-      } catch (error) {
-        console.error("Erro ao carregar os contatos:", error);
-      }
-    };
-
-    fetchContacts();
-  }, []);
-
-  // Função para atualizar a lista após a exclusão
-  const handleDeleteContact = (id: string) => {
-    setContacts(contacts.filter((contact) => contact.id !== id));
+  const handleEditClick = () => {
+    navigate("contacts/store");
   };
 
   return (
@@ -82,16 +68,19 @@ export default function Home() {
               <strong>Nome</strong>
               <img data-order-by={orderBy} src={arrow} alt="Ordenar" />
             </button>
-            <Button>Novo Contato</Button>
+            <Button onClick={handleEditClick}>Novo Contato</Button>
           </div>
         </header>
         {!contacts.length && (
           <p className={styles.emptyContacts}>Nenhum contato encontrado.</p>
         )}
-        {contacts.map((contact) => {
-          console.log(contact); // Faz o log do contato
-          return <ContactCard key={contact.id} data={contact} onDelete={handleDeleteContact}/>;
-        })}
+        {contacts.map((contact) => (
+          <ContactCard
+            key={contact.id}
+            data={contact}
+            onDelete={loadContacts}
+          />
+        ))}
       </section>
     </>
   );

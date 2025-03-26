@@ -1,3 +1,4 @@
 import Home from "./Home";
+import { CreateContact, UpdateContact } from "./Contacts";
 
-export { Home };
+export { Home, CreateContact, UpdateContact };
