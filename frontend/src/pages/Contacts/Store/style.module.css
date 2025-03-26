@@ -1,0 +1,32 @@
+.label {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+  gap: 12px;
+  color: white;
+
+  & > * {
+    padding: 8px;
+  }
+
+  input {
+    border-radius: 32px;
+  }
+
+  select {
+    border-radius: 32px;
+    background-color: var(--secondary-10);
+    color: var(--secondary-1);
+    transition: all 0.3s ease-in;
+
+    &:hover,
+    &:focus {
+      border-color: var(--primary-6);
+      box-shadow: 0 0 0 3px var(--primary-4);
+    }
+  }
+}
+
+input[type="submit"] {
+  border-radius: 32px;
+}

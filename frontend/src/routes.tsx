@@ -9,7 +9,7 @@ export default function AppRoutes() {
       <Routes>
         <Route path= "/" element = {< Home/>}/>
         <Route path= "/contacts/edit" element = {< UpdateContact/>}/>
-        <Route path= "/contacts/create" element = {< CreateContact/>}/>
+        <Route path= "/contacts/store" element = {< CreateContact/>}/>
       </Routes>
     </Router>
   )
