@@ -9,9 +9,14 @@ interface IGetContactsParams {
 }
 
 class ContactsService {
-  async getContacts(params: IGetContactsParams) {
+  async getContacts(params: IGetContactsParams): Promise<IContact[]> {
     const response = await api.get<IContact[]>("/contacts", { params });
     return response.data;
+  }
+
+  async showContact(id: string): Promise<IContact> {
+    const response = await api.get<IContact>(`/contacts/${id}`)
+    return response.data
   }
 }
 
